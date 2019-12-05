@@ -16,7 +16,7 @@ module.exports = db.sequelize.define(
       type: Sequelize.STRING,
     },
     phone: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
     },
     company: {
       type: Sequelize.STRING,
