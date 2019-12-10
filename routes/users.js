@@ -1,5 +1,5 @@
 const express = require('express');
-
+const sequelize = require('sequelize')
 const router = express.Router();
 const User = require('../models/User');
 
@@ -7,8 +7,9 @@ router.get('/', (req, res) => {
   User.findAll()
     .then((users) => {
       res.header('Access-Control-Expose-Headers', 'X-Total-Count');
-      res.header('X-Total-Count', 19);
+      res.header('X-Total-Count',100);
       res.json(users);
+      
     })
     .catch((error) => {
       res.json(`error: ${error}`);
@@ -34,6 +35,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+  console.log(req.body)
   if (!req.body.name) {
     res.status(400);
     return res.json({
@@ -42,6 +44,7 @@ router.post('/', (req, res) => {
   }
   User.create(req.body)
     .then((data) => {
+      console.log(data);
       res.send(data);
     })
     .catch((error) => {
