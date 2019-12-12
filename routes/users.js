@@ -1,20 +1,19 @@
 const express = require('express');
-const sequelize = require('sequelize')
 const router = express.Router();
 const User = require('../models/User');
 
-router.get('/', (req, res) => {
-  User.findAll()
-    .then((users) => {
-      res.header('Access-Control-Expose-Headers', 'X-Total-Count');
-      res.header('X-Total-Count',100);
-      res.json(users);
+ router.get('/', (req, res) => {
+   User.findAll()
+     .then((users) => {
+       res.header('Access-Control-Expose-Headers', 'X-Total-Count');
+       res.header('X-Total-Count',100);
+       res.json(users);
       
-    })
-    .catch((error) => {
-      res.json(`error: ${error}`);
-    });
-});
+     })
+     .catch((error) => {
+       res.json(`error: ${error}`);
+     });
+ });
 
 router.get('/:id', (req, res) => {
   User.findOne({
@@ -66,15 +65,16 @@ router.delete('/:id', (req, res) => {
     });
 });
 
-router.put('/:id', (req, res) => {
-  if (!req.body.name) {
+router.put('/:id', (req, res,) => {
+  const { name, email, phone, company } = req.body;
+  if (!name) {
     res.status(400);
     return res.json({
       error: 'Bad Data',
     });
   }
   User.update(
-    { name: req.body.name },
+    {  name, email, phone, company },
     { where: { id: req.params.id } },
   )
     .then(() => {
