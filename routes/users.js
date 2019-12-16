@@ -3,15 +3,17 @@ const router = express.Router();
 const User = require('../models/User');
 
  router.get('/', (req, res) => {
-   const { _start, _end, _order} = req.query
+   const { _start, _end } = req.query
+  
    User.findAll({
      limit: _end - _start,
-     //order: _order
+    
    })
      .then((users) => {
        res.header('Access-Control-Expose-Headers', 'X-Total-Count');
        res.header('X-Total-Count', 100);
        res.json(users);
+       
       
      })
      .catch((error) => {
