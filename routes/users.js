@@ -1,25 +1,28 @@
 const express = require('express');
+
 const router = express.Router();
 const User = require('../models/User');
 
- router.get('/', async (req, res) => {
-   const { _start, _end } = req.query
-  
-   await User.findAll({
-     limit: _end - _start,
-    
-   })
-     .then((users) => {
-       res.header('Access-Control-Expose-Headers', 'X-Total-Count');
-       res.header('X-Total-Count', 100);
-       res.json(users);
-       
-      
-     })
-     .catch((error) => {
-       res.json(`error: ${error}`);
-     });
- });
+router.get('/', async (req, res) => {
+  const {
+    _start, _end, _order, _sort,
+  } = req.query;
+
+  try {
+    const { count, rows } = await User.findAndCountAll({
+      limit: _end - _start,
+      offset: Number(_start),
+      order: [
+        [_sort, _order],
+      ],
+    });
+    res.header('Access-Control-Expose-Headers', 'X-Total-Count');
+    res.header('X-Total-Count', count);
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 router.get('/:id', async (req, res) => {
   await User.findOne({
@@ -40,7 +43,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   if (!req.body.name) {
     res.status(400);
     return res.json({
@@ -71,8 +74,10 @@ router.delete('/:id', async (req, res) => {
     });
 });
 
-router.put('/:id', async (req, res,) => {
-  const { name, email, phone, company } = req.body;
+router.put('/:id', async (req, res) => {
+  const {
+    name, email, phone, company,
+  } = req.body;
   if (!name) {
     res.status(400);
     return res.json({
@@ -80,7 +85,9 @@ router.put('/:id', async (req, res,) => {
     });
   }
   await User.update(
-    {  name, email, phone, company },
+    {
+      name, email, phone, company,
+    },
     { where: { id: req.params.id } },
   )
     .then(() => {
