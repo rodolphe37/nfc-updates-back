@@ -1,26 +1,31 @@
 const express = require('express');
+
 const router = express.Router();
 const User = require('../models/User');
 
- router.get('/', (req, res) => {
-   const { _start, _end, _order} = req.query
-   User.findAll({
-     limit: _end - _start,
-     //order: _order
-   })
-     .then((users) => {
-       res.header('Access-Control-Expose-Headers', 'X-Total-Count');
-       res.header('X-Total-Count', 100);
-       res.json(users);
-      
-     })
-     .catch((error) => {
-       res.json(`error: ${error}`);
-     });
- });
+router.get('/', async (req, res) => {
+  const {
+    _start, _end, _order, _sort,
+  } = req.query;
 
-router.get('/:id', (req, res) => {
-  User.findOne({
+  try {
+    const { count, rows } = await User.findAndCountAll({
+      limit: _end - _start,
+      offset: Number(_start),
+      order: [
+        [_sort, _order],
+      ],
+    });
+    res.header('Access-Control-Expose-Headers', 'X-Total-Count');
+    res.header('X-Total-Count', count);
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.get('/:id', async (req, res) => {
+  await User.findOne({
     where: {
       id: req.params.id,
     },
@@ -37,15 +42,15 @@ router.get('/:id', (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
-  console.log(req.body)
+router.post('/', async (req, res) => {
+  console.log(req.body);
   if (!req.body.name) {
     res.status(400);
     return res.json({
       error: 'Bad Data',
     });
   }
-  User.create(req.body)
+  await User.create(req.body)
     .then((data) => {
       console.log(data);
       res.send(data);
@@ -55,8 +60,8 @@ router.post('/', (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
-  User.destroy({
+router.delete('/:id', async (req, res) => {
+  await User.destroy({
     where: {
       id: req.params.id,
     },
@@ -69,16 +74,20 @@ router.delete('/:id', (req, res) => {
     });
 });
 
-router.put('/:id', (req, res,) => {
-  const { name, email, phone, company } = req.body;
+router.put('/:id', async (req, res) => {
+  const {
+    name, email, phone, company,
+  } = req.body;
   if (!name) {
     res.status(400);
     return res.json({
       error: 'Bad Data',
     });
   }
-  User.update(
-    {  name, email, phone, company },
+  await User.update(
+    {
+      name, email, phone, company,
+    },
     { where: { id: req.params.id } },
   )
     .then(() => {
