@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 
- router.get('/', (req, res) => {
+ router.get('/', async (req, res) => {
    const { _start, _end } = req.query
   
-   User.findAll({
+   await User.findAll({
      limit: _end - _start,
     
    })
@@ -21,8 +21,8 @@ const User = require('../models/User');
      });
  });
 
-router.get('/:id', (req, res) => {
-  User.findOne({
+router.get('/:id', async (req, res) => {
+  await User.findOne({
     where: {
       id: req.params.id,
     },
@@ -39,7 +39,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   console.log(req.body)
   if (!req.body.name) {
     res.status(400);
@@ -47,7 +47,7 @@ router.post('/', (req, res) => {
       error: 'Bad Data',
     });
   }
-  User.create(req.body)
+  await User.create(req.body)
     .then((data) => {
       console.log(data);
       res.send(data);
@@ -57,8 +57,8 @@ router.post('/', (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
-  User.destroy({
+router.delete('/:id', async (req, res) => {
+  await User.destroy({
     where: {
       id: req.params.id,
     },
@@ -71,7 +71,7 @@ router.delete('/:id', (req, res) => {
     });
 });
 
-router.put('/:id', (req, res,) => {
+router.put('/:id', async (req, res,) => {
   const { name, email, phone, company } = req.body;
   if (!name) {
     res.status(400);
@@ -79,7 +79,7 @@ router.put('/:id', (req, res,) => {
       error: 'Bad Data',
     });
   }
-  User.update(
+  await User.update(
     {  name, email, phone, company },
     { where: { id: req.params.id } },
   )
