@@ -1,3 +1,3 @@
-const { sequelize } = require("sequelize");
+const { sequelize } = require('./models/User');
 
-sequelize.sync({ force: true })
+sequelize.sync({ force: true });

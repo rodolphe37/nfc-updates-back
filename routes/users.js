@@ -43,7 +43,6 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  console.log(req.body);
   if (!req.body.name) {
     res.status(400);
     return res.json({
@@ -52,7 +51,6 @@ router.post('/', async (req, res) => {
   }
   await User.create(req.body)
     .then((data) => {
-      console.log(data);
       res.send(data);
     })
     .catch((error) => {
