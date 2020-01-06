@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
@@ -11,7 +13,7 @@ const connection = require("../config/connection");
 const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 
-require('dotenv').config();
+
 
 router.post("/create", (req, res) => {
   // Form validation
@@ -51,58 +53,7 @@ router.post("/create", (req, res) => {
 });
 
 
-router.post("/login", (req, res) => {
-  // Form validation
-  
-  const { errors, isValid } = validateLoginInput(req.body);
-  
-  // Check validation
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
-  
-  const email = req.body.email;
-  const password = req.body.password;
-  
-  // Find user by email
-  User.findOne({ email }).then(user => {
-    // Check if user exists
-    if (!user) {
-      return res.status(404).json({ emailnotfound: "Email not found" });
-    }
-    
-    // Check password
-    bcrypt.compare(password, user.password).then(isMatch => {
-      if (isMatch) {
-        // User matched
-        // Create JWT Payload
-        const payload = {
-          id: user.id,
-          name: user.name
-        };
-        
-        // Sign token
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          {
-            expiresIn: 31556926 // 1 year in seconds
-          },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: "Bearer " + token
-            });
-          }
-        );
-      } else {
-        return res
-          .status(400)
-          .json({ passwordincorrect: "Password incorrect" });
-      }
-    });
-  });
-});
+
 
 router.get('/', async (req, res) => {
   const {
@@ -143,7 +94,11 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-
+  await User.findAll({
+    where: {
+      id: req.params.id,
+    },
+  })
   console.log(req.body);
   if (!req.body.name) {
     res.status(400);
@@ -197,11 +152,11 @@ router.put('/:id', async (req, res) => {
   const {
     name, email, phone, company,
   } = req.body;
-  if (!name) {
-    res.status(400);
-    return res.json({
-      error: 'Bad Data',
-    });
+  const { errors, isValid } = validateLoginInput(req.body);
+    
+  // Check validation
+  if (!isValid) {
+    return res.status(400).json(errors);
   }
   await User.update(
     {
