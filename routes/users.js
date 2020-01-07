@@ -3,16 +3,12 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
-const db = require('../database/db');
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const keys = require("../config/keys");
 const connection = require("../config/connection");
 
 
 const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
-
 
 
 router.post("/create", (req, res) => {
@@ -53,15 +49,13 @@ router.post("/create", (req, res) => {
 });
 
 
-
-
 router.get('/', async (req, res) => {
   const {
-    _start, _end, _order, _sort,
+    _start, _end, _order, _sort, q
   } = req.query;
-
   try {
     const { count, rows } = await User.findAndCountAll({
+      q: q,
       limit: _end - _start,
       offset: Number(_start),
       order: [
@@ -75,6 +69,7 @@ router.get('/', async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 
 router.get('/:id', async (req, res) => {
   await User.findOne({
@@ -92,6 +87,7 @@ router.get('/:id', async (req, res) => {
       res.send(`error: ${error}`);
     });
 });
+
 
 router.post('/', async (req, res) => {
   await User.findAll({
@@ -114,23 +110,6 @@ router.post('/', async (req, res) => {
     .catch((error) => {
       res.json(`error: ${error}`);
     });
-
-   
-});
-
-router.post('/login', async (req, res) => {
-  const { name, password } = req.body;
-  try {
-    const { token } = await auth.authenticate({ name, password });
-    res.send({ token });
-  } catch (err) {
-    res.status(401).send();
-  }
-  await User.create(req.body)
-    .then((data) => {
-      console.log(data);
-      res.send(data);
-    })
 });
 
 
@@ -147,6 +126,7 @@ router.delete('/:id', async (req, res) => {
       res.send(`error:${error}`);
     });
 });
+
 
 router.put('/:id', async (req, res) => {
   const {
