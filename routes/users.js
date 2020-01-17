@@ -11,42 +11,91 @@ const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 
 
-router.post("/create", (req, res) => {
+const createUser = async ({ name, password, company, phone, email, id }) => {
+  return await User.create({ name, password, company, phone, email, id });
+};
+
+
+
+
+// @route POST api/users/register
+// @desc Register user
+// @access Public
+router.post("/register", (req, res) => {
+    // Form validation
+    
+    const { errors, isValid } = validateRegisterInput(req.body);
+    
+    // Check validation
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+    
+    connection.query(`SELECT email FROM users WHERE email = ?`,[req.body.email], (err, results) => {
+        if (err) {
+          res.status(500).send("Email already exists" );
+        } else {
+          //res.json(results);
+          const newUser = new User({
+            id: req.params.id,
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password,
+            company: req.body.company,
+            phone: req.body.phone 
+          });
+          // Hash password before saving in database
+        bcrypt.genSalt(10, (err, salt,  ) => {
+            bcrypt.hash(new User.password, salt, (err, hash) => {
+              if (err);
+              newUser.password = hash;
+              newUser
+                .save()
+                .then(results => res.json(results))
+                .catch(err => console.log(err));
+            });
+          });
+        }
+      });
+  });
+
+
+router.post("/", async (req, res) => {
   // Form validation
-  
+  const id = req.params.id
+  const { name, password, company, phone, email  } = req.body;
+
   const { errors, isValid } = validateRegisterInput(req.body);
   
   // Check validation
   if (!isValid) {
     return res.status(400).json(errors);
   }
-  
-  connection.query(`SELECT email FROM users WHERE email = ?`,[req.body.email], (err, results) => {
-      if (err) {
-        res.status(500).send("Email already exists");
-      } else {
-        //res.json(results);
-        const newUser = new User({
-          name: req.body.name,
-          email: req.body.email,
-          password: req.body.password
-        });
-
-        // Hash password before saving in database
-      bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(newUser.password, salt, (err, hash) => {
-            if (err);
-            newUser.password = hash;
-            newUser
-              .save()
-              .then(results => res.json(results))
-              .catch(err => console.log(err));
-          });
-        });
-      }
+ else {
+  const newUser = new User({
+    id: req.params.id,
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    company: req.body.company,
+    phone: req.body.phone 
+  });
+      // Hash password before saving in database
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(newUser.password, salt, (err, hash) => {
+        if (err);
+        newUser.password = hash;
+        newUser
+          .save()
+          .then(results => res.json(results))
+          .catch(err => console.log(err));
+      });
     });
- 
+  };
 });
+    
+ 
+
 
 
 router.get('/', async (req, res) => {
@@ -89,28 +138,6 @@ router.get('/:id', async (req, res) => {
 });
 
 
-router.post('/', async (req, res) => {
-  await User.findAll({
-    where: {
-      id: req.params.id,
-    },
-  })
-  console.log(req.body);
-  if (!req.body.name) {
-    res.status(400);
-    return res.json({
-      error: 'Bad Data',
-    });
-  }
-  await User.create(req.body)
-    .then((data) => {
-      console.log(data);
-      res.send(data);
-    })
-    .catch((error) => {
-      res.json(`error: ${error}`);
-    });
-});
 
 
 router.delete('/:id', async (req, res) => {
