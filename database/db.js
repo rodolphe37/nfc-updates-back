@@ -2,9 +2,7 @@ const Sequelize = require('sequelize');
 
 const db = {};
 
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
-  host: process.env.DB_HOST,
-  dialect: 'mysql',
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
 
   pool: {
     max: 50,
@@ -18,7 +16,7 @@ sequelize
   .authenticate()
   .then((err) => {
     console.log('Connection has been established successfully.');
-  }, (err) => { 
+  }, (err) => {
     console.log('Unable to connect to the database:', err);
   });
 
