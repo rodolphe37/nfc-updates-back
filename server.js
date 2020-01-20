@@ -6,8 +6,8 @@ const cors = require('cors');
 const passport = require('passport');
 const users = require('./routes/users');
 
-const app = express();
 
+const app = express();
 
 const port = 5000;
 
