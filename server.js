@@ -3,14 +3,15 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const passport = require('passport');
 const users = require('./routes/users');
+
 
 const app = express();
 const passport = require('passport');
 
 
-const port = 5000;
-
+const port = process.env.PORT;
 
 app.use(cors());
 
