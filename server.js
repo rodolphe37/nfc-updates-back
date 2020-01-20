@@ -5,12 +5,17 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
 const users = require('./routes/users');
+<<<<<<< HEAD
 
 const app = express();
+=======
+>>>>>>> 944d9c5be7cf30f91709ca17726c41b5b97ca05d
+
+const app = express();
+const passport = require('passport');
 
 
-const port = 5000;
-
+const port = process.env.PORT;
 
 app.use(cors());
 
