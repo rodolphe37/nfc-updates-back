@@ -6,8 +6,6 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const connection = require('../config/connection');
-
-
 const validateRegisterInput = require('../validation/register');
 const validateLoginInput = require('../validation/login');
 
@@ -19,15 +17,18 @@ const validateLoginInput = require('../validation/login');
 // });
 
 
+
 // @route POST api/users/register
 // @desc Register user
 // @access Public
 router.post('/register', (req, res) => {
   // Form validation
+
   const { id } = req.params;
   const {
     name, password, company, phone, email,
   } = req.body;
+
 
   const { errors, isValid } = validateRegisterInput(req.body);
 
@@ -37,6 +38,7 @@ router.post('/register', (req, res) => {
   }
 
   connection.query('SELECT email FROM users WHERE email = ?', [email], (err, results) => {
+
     if (err) {
       res.status(500).send('Email already exists');
     } else {
@@ -60,6 +62,7 @@ router.post('/register', (req, res) => {
             .catch((err) => console.log(err));
         });
       });
+
     }
   });
 });
@@ -86,6 +89,7 @@ router.post('/', async (req, res) => {
     password,
     company,
     phone,
+
   });
   // Hash password before saving in database
   bcrypt.genSalt(10, (err, salt) => {

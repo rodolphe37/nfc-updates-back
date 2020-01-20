@@ -9,8 +9,11 @@ const users = require('./routes/users');
 const app = express();
 
 
-const port = 5000;
+const app = express();
+const passport = require('passport');
 
+
+const port = process.env.PORT;
 
 app.use(cors());
 
