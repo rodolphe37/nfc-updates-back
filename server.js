@@ -8,7 +8,9 @@ const users = require('./routes/users');
 
 const app = express();
 
-const port = process.env.PORT;
+
+const port = 5000;
+
 
 app.use(cors());
 
