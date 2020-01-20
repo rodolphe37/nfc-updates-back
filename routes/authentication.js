@@ -16,20 +16,20 @@ const register = async ({ email, password }) => {
   });
   // Be careful not to send password or salt
   return {
-    email: user.email,
-  };
-};
+    email: user.email
+  }
+}
 
 const authenticate = async ({ email, password }) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    throw new Error('User not found');
+    throw new Error('User not found')
   }
 
   const isPasswordCorrect = await argon2.verify(user.password, password);
   if (!isPasswordCorrect) {
-    throw new Error('Incorrect password');
+    throw new Error('Incorrect password')
   }
 
   const payload = {
@@ -38,8 +38,8 @@ const authenticate = async ({ email, password }) => {
 
   return {
     token: jwt.sign(payload, secret, { expiresIn: '6h' }),
-  };
-};
+  }
+}
 
 const isAuthenticated = expressJWT({
   secret, // Same secret as when we signed
@@ -49,4 +49,4 @@ module.exports = {
   register,
   authenticate,
   isAuthenticated,
-};
+}
