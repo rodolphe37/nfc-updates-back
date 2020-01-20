@@ -7,17 +7,8 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const connection = require('../config/connection');
 
-
 const validateRegisterInput = require('../validation/register');
 const validateLoginInput = require('../validation/login');
-
-
-// const createUser = async ({
-//   name, password, company, phone, email, id,
-// }) => await User.create({
-//   name, password, company, phone, email, id,
-// });
-
 
 // @route POST api/users/register
 // @desc Register user
