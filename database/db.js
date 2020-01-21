@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 const db = {};
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
-
+  
   pool: {
     max: 50,
     min: 0,

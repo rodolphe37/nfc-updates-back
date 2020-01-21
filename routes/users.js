@@ -6,29 +6,19 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const connection = require('../config/connection');
+
 const validateRegisterInput = require('../validation/register');
 const validateLoginInput = require('../validation/login');
-
-
-// const createUser = async ({
-//   name, password, company, phone, email, id,
-// }) => await User.create({
-//   name, password, company, phone, email, id,
-// });
-
-
 
 // @route POST api/users/register
 // @desc Register user
 // @access Public
 router.post('/register', (req, res) => {
   // Form validation
-
   const { id } = req.params;
   const {
     name, password, company, phone, email,
   } = req.body;
-
 
   const { errors, isValid } = validateRegisterInput(req.body);
 
@@ -38,7 +28,6 @@ router.post('/register', (req, res) => {
   }
 
   connection.query('SELECT email FROM users WHERE email = ?', [email], (err, results) => {
-
     if (err) {
       res.status(500).send('Email already exists');
     } else {
@@ -62,7 +51,6 @@ router.post('/register', (req, res) => {
             .catch((err) => console.log(err));
         });
       });
-
     }
   });
 });
@@ -89,7 +77,6 @@ router.post('/', async (req, res) => {
     password,
     company,
     phone,
-
   });
   // Hash password before saving in database
   bcrypt.genSalt(10, (err, salt) => {
@@ -170,32 +157,18 @@ router.put('/:id', async (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors);
   }
-  await User.update(
-    {
-      id, name, email, phone, company, password,
-    },
-    { where: { id: req.params.id } },
-  )
-    .then(() => {
-      res.json({ status: 'User Updated!' });
-    });
-  const newUser = new User({
-    id,
-    name,
-    email,
-    password,
-    company,
-    phone,
-  });
+
   // Hash password before saving in database
   bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(newUser.password, salt, (err, hash) => {
-      if (err);
-      newUser.password = hash;
-      newUser
-        .save()
-        .then((results) => res.json(results))
-        .catch((err) => console.log(err));
+    bcrypt.hash(password, salt, async (err, hash) => {
+      if (err) return res.status(500).send(err);
+      await User.update(
+        {
+          name, email, phone, company, password: hash,
+        },
+        { where: { id: req.params.id } },
+      );
+      return res.send();
     });
   });
 });
