@@ -157,32 +157,18 @@ router.put('/:id', async (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors);
   }
-  await User.update(
-    {
-      id, name, email, phone, company, password,
-    },
-    { where: { id: req.params.id } },
-  )
-    .then(() => {
-      res.json({ status: 'User Updated!' });
-    });
-  const newUser = new User({
-    id,
-    name,
-    email,
-    password,
-    company,
-    phone,
-  });
+
   // Hash password before saving in database
   bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(newUser.password, salt, (err, hash) => {
-      if (err);
-      newUser.password = hash;
-      newUser
-        .save()
-        .then((results) => res.json(results))
-        .catch((err) => console.log(err));
+    bcrypt.hash(password, salt, async (err, hash) => {
+      if (err) return res.status(500).send(err);
+      await User.update(
+        {
+          name, email, phone, company, password: hash,
+        },
+        { where: { id: req.params.id } },
+      );
+      return res.send();
     });
   });
 });
