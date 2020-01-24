@@ -115,32 +115,13 @@
 
   
 
-- Create-react-app with highly complex frontend structure
+- Express with highly complex Backend structure
 
   
 
 ---
 
-  
-
-  
-
-## Implementation Highlights
-
-  
-
-  
-
-  
-
-### Full React admin Template
-
-  
-
-  
-  
-
-  
+ 
 
 ### Current components on this template
 
@@ -208,7 +189,7 @@
 ## Start project
 
 ### Warning ! 
-***this administration template works with a Frontend that you can download or clone at this address***
+**this administration template works with a Frontend that you can download or clone at this address**
 [Frontend for this administration template](https://github.com/WildCodeSchool/nfc-updates-front)
 ---
   
@@ -217,13 +198,13 @@
 
   
 
-- Create ".env" file on the root of your app :
+- Create ".env" file on your app's root :
 
-- put in this file :
+- put it in this file :
 
-- ``` DATABASE_URL=mysql://root:PasswordMySQL@localhost/NameOfYourDatabase ``` => This is a configuration for your MySQL database.  
+- ``` DATABASE_URL=mysql://User:PasswordMySQL@localhost/NameOfYourDatabase ``` => This is a configuration for your MySQL database.  
 
-- Make in the console :
+- Do in the console :
 
   
 
@@ -235,7 +216,7 @@
 
   
 
-for install the dependencies and
+to install the dependencies and
 
   
 
