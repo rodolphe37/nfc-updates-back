@@ -64,7 +64,12 @@
 
 ## Tech Stack
 
- **You must have at minimun these versions for greats performances and good compatibility**
+ 
+  **Version of Node js**
+-    v8.16.2 minimun
+
+  **Version of MySQL**
+-    v14.14 minimun
 
  | Tech used | Links |
  |---|---|
