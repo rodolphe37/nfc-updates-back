@@ -72,35 +72,21 @@
   
 
 ## Tech Stack
-
- 
-
-- [argon2 V-0.25.1](https://argon2.online/)
-
-- [bcryptjs V-2.4.3](https://www.npmjs.com/package/bcryptjs)
-
-- [cors V-2.8.5](https://www.npmjs.com/package/cors)
-
-- [dotenv V-8.2.0](https://www.npmjs.com/package/dotenv)
-
-- [express V-4.17.1](https://expressjs.com/fr/)
-
-- [express-jwt V-5.3.1](https://github.com/auth0/express-jwt)
-
-- [is-empty V-1.2.0](https://www.npmjs.com/package/is-empty)
-
-- [jsonwebtoken V-8.5.1](https://www.npmjs.com/package/jsonwebtoken)
-
-- [mysql2 V-2.0.1](https://www.npmjs.com/package/mysql2)
-
-- [passportV-0.4.1](https://www.npmjs.com/package/passport)
-
-- [passport-jwt V-4.0.0](http://www.passportjs.org/packages/passport-jwt/)
-
-- [randombytes V-2.1.0](https://www.npmjs.com/package/randombytes)
-
-- [sequelize V-5.21.2](https://sequelize.org/)
-
+ | Tech Used | Links |
+ |---|---|
+ | argon2 V-0.25.1 | [https://argon2.online/] |
+ | bcryptjs V-2.4.3 | [https://www.npmjs.com/package/bcryptjs] |
+ | cors V-2.8.5 | [https://www.npmjs.com/package/cors] |
+ | dotenv V-8.2.0 | [https://www.npmjs.com/package/dotenv] |
+ | express V-4.17.1 | [https://expressjs.com/fr/] |
+ | express-jwt V-5.3.1 | [https://github.com/auth0/express-jwt] |
+ | is-empty V-1.2.0 | [https://www.npmjs.com/package/is-empty] |
+ | jsonwebtoken V-8.5.1 | [https://www.npmjs.com/package/jsonwebtoken] |
+ | mysql2 V-2.0.1 | [https://www.npmjs.com/package/mysql2] |
+ | passportV-0.4.1 | [https://www.npmjs.com/package/passport] |
+ | passport-jwt V-4.0.0 | [http://www.passportjs.org/packages/passport-jwt/] |
+ | randombytes V-2.1.0 | [https://www.npmjs.com/package/randombytes] |
+ | sequelize V-5.21.2 | [https://sequelize.org/] |
 
 
 
