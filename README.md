@@ -32,12 +32,6 @@
 
   
 
-[About](#Implementation Highlights)
-
-  
-
-  
-
 - [Current components on this template](#Current-components-on-this-template)
 
   
@@ -57,9 +51,6 @@
 
 ### Picture Demo
 
-  
-
-#### Light Mode
 
 ![BackExamplepng](BackExample.png)
 
@@ -220,7 +211,7 @@ to install the dependencies and
 
   
 
-- ```npm start```
+- ```npm run server```
 
   
 
