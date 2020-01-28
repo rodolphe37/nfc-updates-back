@@ -27,7 +27,7 @@ module.exports = {
       timestamps: false,
     }).done(done);
   },
-  down: (migration, DataTypes, done) => {
+  down: (migration, Sequelize, done) => {
     migration.dropTable('users').done(done);
   },
 };
