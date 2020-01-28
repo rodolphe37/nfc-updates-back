@@ -1,6 +1,6 @@
 
 module.exports = {
-  up(migration, Sequelize, done) {
+  up: (migration, Sequelize, done) => {
     migration.createTable('users', {
       id: {
         type: Sequelize.INTEGER,
@@ -27,7 +27,7 @@ module.exports = {
       timestamps: false,
     }).done(done);
   },
-  down(migration, DataTypes, done) {
+  down: (migration, DataTypes, done) => {
     migration.dropTable('users').done(done);
   },
 };
