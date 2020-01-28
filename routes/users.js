@@ -96,6 +96,7 @@ router.get('/', async (req, res) => {
   const {
     _start, _end, _order, _sort, q,
   } = req.query;
+
   try {
     const { count, rows } = await User.findAndCountAll({
       q,
