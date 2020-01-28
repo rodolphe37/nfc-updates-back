@@ -1,3 +1,33 @@
-const { sequelize } = require("sequelize");
 
-sequelize.sync({ force: true })
+module.exports = {
+  up(migration, Sequelize, done) {
+    migration.createTable('users', {
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      name: {
+        type: Sequelize.STRING,
+      },
+      email: {
+        type: Sequelize.STRING,
+      },
+      phone: {
+        type: Sequelize.STRING,
+      },
+      company: {
+        type: Sequelize.STRING,
+      },
+      password: {
+        type: Sequelize.STRING,
+      },
+    },
+    {
+      timestamps: false,
+    }).done(done);
+  },
+  down(migration, DataTypes, done) {
+    migration.dropTable('users').done(done);
+  },
+};
