@@ -80,7 +80,7 @@ router.post('/', async (req, res) => {
   });
   // Hash password before saving in database
   bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(newUser.password, salt, (err, hash) => {
+    bcrypt.hash(password, salt, (err, hash) => {
       if (err);
       newUser.password = hash;
       newUser
@@ -96,6 +96,7 @@ router.get('/', async (req, res) => {
   const {
     _start, _end, _order, _sort, q,
   } = req.query;
+
   try {
     const { count, rows } = await User.findAndCountAll({
       q,
@@ -148,8 +149,9 @@ router.delete('/:id', async (req, res) => {
 
 
 router.put('/:id', async (req, res) => {
+  const { id } = req.params;
   const {
-    id, name, email, phone, company, password,
+    name, email, phone, company, password,
   } = req.body;
   const { errors, isValid } = validateLoginInput(req.body);
 
@@ -162,13 +164,13 @@ router.put('/:id', async (req, res) => {
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(password, salt, async (err, hash) => {
       if (err) return res.status(500).send(err);
-      await User.update(
+      const user = await User.update(
         {
-          name, email, phone, company, password: hash,
+          id, name, email, phone, company, password: hash,
         },
         { where: { id: req.params.id } },
       );
-      return res.send();
+      return res.send(user);
     });
   });
 });
