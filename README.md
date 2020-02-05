@@ -186,7 +186,7 @@
 
 ### Warning ! 
 **this administration template works with a Frontend that you can download or clone at this address**
-[Frontend for this administration template](https://github.com/WildCodeSchool/nfc-updates-front)
+[Frontend for this administration template](https://github.com/rodolphe37/nfc-updates-front.git)
 ---
   
 
