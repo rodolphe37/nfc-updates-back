@@ -204,6 +204,11 @@
 
 - ```$ cd api```
 
+Then, do:
+
+- ```$ nvm use ```
+
+to synchronized you node version, and :
 
 - ```$ npm i``` or ```$ npm install ```
 
