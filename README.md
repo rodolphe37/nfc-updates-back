@@ -209,7 +209,7 @@
 
 to install the dependencies and
 
-- ``` $ npm sequelize db:migrate ````
+- ``` $ npm sequelize db:migrate ```
 
 To migrate Database, and:  
 
