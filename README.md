@@ -190,7 +190,7 @@
 ---
   
 
-- Clone this repo (https://github.com/WildCodeSchool/nfc-updates-back.git)
+- Clone this repo (https://github.com/rodolphe37/nfc-updates-back.git)
 
   
 
@@ -202,24 +202,20 @@
 
 - Do in the console :
 
-  
+- ```$ cd api```
 
-- ```cd api```
 
-  
-
-- ``` npm i``` or ```npm install ```
-
-  
+- ```$ npm i``` or ```$ npm install ```
 
 to install the dependencies and
 
+- ``` $ npm sequelize db:migrate ````
+
+To migrate Database, and:  
+
+- ```$ npm run server```
+
   
-
-- ```npm run server```
-
-  
-
 to start project.
 
   
